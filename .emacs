@@ -8,7 +8,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (evil-magit evil-matchit evil-surround helm magit evil))))
+    (org-evil evil-visualstar evil-magit evil-matchit evil-surround helm magit evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -40,6 +40,8 @@ Return a list of installed packages or nil for every skipped package."
 (ensure-package-installed 'evil
 			  'evil-surround
 			  'evil-matchit
+			  'evil-visualstar
+			  'org-evil
 			  'magit
 			  'evil-magit
 			  'helm)
