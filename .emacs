@@ -4,7 +4,28 @@
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 (setq package-enable-at-startup nil)
 (package-initialize)
- 
+
+; A function to help automatically install packages if they are not installed
+(defun auto-install-packages(&rest packages)
+  "Automatically install a package if it is not installed"
+  (mapcar
+   (lambda (package)
+     (if (package-installed-p package)
+                nil
+       (package-install package)
+       ))
+     packages))
+
+;; Install all the packages we need at the top here
+(auto-install-packages
+ 'better-defaults
+ 'evil
+ 'evil-surround
+ 'monokai-theme
+ 'linum-relative
+ 'magit
+ )
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -19,41 +40,27 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 111 :width normal :foundry "PfEd" :family "Inconsolata")))))
 
-; A function to help automatically install packages if they are not installed
-(defun auto-install-packages(&rest packages)
-  "Automatically install a package if it is not installed"
-  (mapcar
-   (lambda (package)
-     (if (package-installed-p package)
-                nil
-       (package-install package)
-       ))
-     packages))
- 
 ;; Changes some defaults starting options for emacs, one of which I like
 ;; is to hide the toolbar on startup
-(auto-install-packages 'better-defaults)
 (require 'better-defaults)
  
 ; Evil-mode for vim bindings
-(auto-install-packages 'evil)
 (require 'evil)
 (evil-mode t)
  
 ; Like tpope's surround plugin for vim
-(auto-install-packages 'evil-surround)
 (require 'evil-surround)
 (global-evil-surround-mode 1)
  
 ; Color theme
-(auto-install-packages 'monokai-theme)
+(require 'monokai-theme)
 (load-theme 'monokai t)
  
 ; Set relative line numbers
-(auto-install-packages 'linum-relative)
 (require 'linum-relative)
+(linum-on)
 (linum-relative-on)
 (setq linum-relative-current-symbol "")
 
@@ -64,5 +71,5 @@
 (setq vc-follow-symlinks t)
 
 ;; magit extendtion for running git commands through emacs
-(auto-install-packages 'magit)
+(require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
