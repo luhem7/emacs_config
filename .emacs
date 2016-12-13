@@ -24,6 +24,7 @@
  'monokai-theme
  'linum-relative
  'magit
+ 'helm
  )
 
 (custom-set-variables
@@ -34,7 +35,7 @@
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (magit linum-relative monokai-theme evil-surround evil better-defaults))))
+    (helm magit linum-relative monokai-theme evil-surround evil better-defaults))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -60,7 +61,7 @@
  
 ; Set relative line numbers
 (require 'linum-relative)
-(linum-on)
+(linum-mode)
 (linum-relative-on)
 (setq linum-relative-current-symbol "")
 
@@ -73,3 +74,26 @@
 ;; magit extendtion for running git commands through emacs
 (require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
+
+;; Helm related settings
+;; Great tutorial about helm: https://tuhdo.github.io/helm-intro.html
+(require 'helm)
+(require 'helm-config)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-unset-key (kbd "C-x c"))
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
+(when (executable-find "curl")
+  (setq helm-google-suggest-use-curl-p t))
+(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+      helm-ff-file-name-history-use-recentf t
+      helm-echo-input-in-header-line        t)
+(helm-autoresize-mode t)
+(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x M-f") 'helm-occur)
+(global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
+(helm-mode 1)
