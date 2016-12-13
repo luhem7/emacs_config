@@ -43,6 +43,15 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 111 :width normal :foundry "PfEd" :family "Inconsolata")))))
 
+;; Always follow symlinks which point to version controlled files.
+;; Apparently emacs can also the symlink controlled file at the location of the
+;; symlink itself, but doing this will bypass version control systems
+;; http://stackoverflow.com/questions/15390178/emacs-and-symbolic-links
+(setq vc-follow-symlinks t)
+
+;; Always indent on newline
+(define-key global-map (kbd "RET") 'newline-and-indent)
+
 ;; Changes some defaults starting options for emacs, one of which I like
 ;; is to hide the toolbar on startup
 (require 'better-defaults)
@@ -64,12 +73,6 @@
 (linum-mode)
 (linum-relative-on)
 (setq linum-relative-current-symbol "")
-
-;; Always follow symlinks which point to version controlled files.
-;; Apparently emacs can also the symlink controlled file at the location of the
-;; symlink itself, but doing this will bypass version control systems
-;; http://stackoverflow.com/questions/15390178/emacs-and-symbolic-links
-(setq vc-follow-symlinks t)
 
 ;; magit extendtion for running git commands through emacs
 (require 'magit)
